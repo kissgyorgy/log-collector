@@ -1,4 +1,4 @@
-from setuptools import setup
+from setuptools import setup, find_packages
 
 
 setup(
@@ -6,5 +6,5 @@ setup(
     version = '0.1.0',
     author = 'Kiss György',
     description = 'Log collector task for Job application',
-    py_modules = ['logcollector', 'moving_average']
+    modules = find_packages()
 )
