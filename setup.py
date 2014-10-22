@@ -6,5 +6,6 @@ setup(
     version = '0.1.0',
     author = 'Kiss György',
     description = 'Log collector task for Job application',
-    modules = find_packages()
+    modules = find_packages(),
+    install_requires = ['flask', 'sqlalchemy', 'flask-sqlalchemy']
 )
