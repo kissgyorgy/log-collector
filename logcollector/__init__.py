@@ -36,25 +36,21 @@ def convert_timestamps(func):
     return wrapper
 
 
-def query_by_date(first_date, last_date):
-    """Query database for DataPoint between two dates."""
-    query = db.session.query(DataPoint.value)\
-                      .filter(first_date <= DataPoint.timestamp,
-                              DataPoint.timestamp <= last_date)
-
-    values = [d[0] for d in filter_by_dim12(query).all()]
-    return values
-
-
 def get_dataset_by_dates(view):
     """Query the database for a dataset in a given time frame."""
     @functools.wraps(view)
     def wrapper(first_date, last_date, points=None):
-        dataset = query_by_date(first_date, last_date)
+        query = db.session.query(DataPoint.value)\
+                          .filter(first_date <= DataPoint.timestamp,
+                                  DataPoint.timestamp <= last_date)
+
+        dataset = [d[0] for d in filter_by_dim12(query).all()]
+
         if points:
             return view(dataset, points)
         else:
             return view(dataset)
+
     return wrapper
 
 
