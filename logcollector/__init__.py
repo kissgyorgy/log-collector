@@ -27,11 +27,18 @@ def mean(first, second):
     first_date = datetime.fromtimestamp(float(first))
     second_date = datetime.fromtimestamp(float(second))
 
-    data_points = db.session\
-                    .query(DataPoint.value)\
-                    .filter(first_date < DataPoint.timestamp,
-                            DataPoint.timestamp < second_date)\
-                    .all()
+    query = db.session.query(DataPoint.value)\
+                      .filter(first_date <= DataPoint.timestamp,
+                              DataPoint.timestamp <= second_date)
 
-    dataset = [d[0] for d in data_points]
+    dim1 = request.args.get('dim1')
+    if dim1:
+        query = query.filter_by(dim1=dim1)
+
+    dim2 = request.args.get('dim2')
+    if dim2:
+        query = query.filter_by(dim2=dim2)
+
+    dataset = [d[0] for d in query.all()]
+
     return jsonify(mean=statistics.mean(dataset))
