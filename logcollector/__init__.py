@@ -46,4 +46,16 @@ def query_by_date(first_date, last_date):
     return values
 
 
+def get_dataset_by_dates(view):
+    """Query the database for a dataset in a given time frame."""
+    @functools.wraps(view)
+    def wrapper(first_date, last_date, points=None):
+        dataset = query_by_date(first_date, last_date)
+        if points:
+            return view(dataset, points)
+        else:
+            return view(dataset)
+    return wrapper
+
+
 from . import views

@@ -1,6 +1,6 @@
 import statistics
 from flask import request, jsonify, render_template
-from . import app, db, convert_timestamps, query_by_date
+from . import app, db, convert_timestamps, get_dataset_by_dates
 from .models import DataPoint
 from .moving_average import moving_average
 from .forms import NewDataForm
@@ -22,38 +22,37 @@ def collect():
 
 @app.route('/mean/<first_timestamp>/<last_timestamp>')
 @convert_timestamps
-def mean(first_date, last_date):
-    dataset = query_by_date(first_date, last_date)
+@get_dataset_by_dates
+def mean(dataset):
     return jsonify(mean=statistics.mean(dataset))
 
 
 @app.route('/min/<first_timestamp>/<last_timestamp>')
 @convert_timestamps
-def min_view(first_date, last_date):
-    dataset = query_by_date(first_date, last_date)
+@get_dataset_by_dates
+def min_view(dataset):
     return jsonify(min=min(dataset))
 
 
 @app.route('/max/<first_timestamp>/<last_timestamp>')
 @convert_timestamps
-def max_view(first_date, last_date):
-    dataset = query_by_date(first_date, last_date)
+@get_dataset_by_dates
+def max_view(dataset):
     return jsonify(max=max(dataset))
 
 
 @app.route('/stddev/<first_timestamp>/<last_timestamp>')
 @convert_timestamps
-def stddev(first_date, last_date):
-    dataset = query_by_date(first_date, last_date)
+@get_dataset_by_dates
+def stddev(dataset):
     stddev = statistics.stdev(dataset)
     return jsonify(stddev=round(stddev, 5))
 
 
 @app.route('/movavg/<first_timestamp>/<last_timestamp>/<int:points>')
 @convert_timestamps
-def movavg(first_date, last_date, points):
-    # print(type(first_date), last_date, points)
-    dataset = query_by_date(first_date, last_date)
+@get_dataset_by_dates
+def movavg(dataset, points):
     return jsonify(movavg=moving_average(dataset, points))
 
 
