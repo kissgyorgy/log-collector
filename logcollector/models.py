@@ -16,7 +16,7 @@ class DataPoint(Base):
     value = Column(Float)
 
     def __init__(self, timestamp, dim1, dim2, value):
-        self.timestamp = datetime.fromtimestamp(int(timestamp))
+        self.timestamp = datetime.fromtimestamp(float(timestamp))
         self.dim1 = int(dim1)
         self.dim2 = int(dim2)
         self.value = float(value)
