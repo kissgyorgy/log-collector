@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Logcollector - Send new data</title>
+</head>
+<body>
+  <h1>Új adatpont felvétele</h1>
+  <form action="{{ url_for('new_data') }}" method="POST">
+    {{ form.csrf_token }}
+    {{ form.timestamp.label }}: {{ form.timestamp }} <br>
+    {{ form.dim1.label }}: {{ form.dim1 }} <br>
+    {{ form.dim2.label }}: {{ form.dim2 }} <br>
+    {{ form.value.label }}: {{ form.value }} <br>
+    <input type="submit" value="Létrehozás">
+  </form>
+
+  {% if request.method == 'POST' %}
+    <hr>
+    Új adatpont létrehozva: <br>
+    <table>
+      <tr>
+        <td>id</td>
+        <td>{{ new_data.id }}</td>
+      </tr>
+      <tr>
+        <td>timestamp</td>
+        <td>{{ new_data.timestamp }}</td>
+      </tr>
+      <tr>
+        <td>dim1</td>
+        <td>{{ new_data.dim1 }}</td>
+      </tr>
+      <tr>
+        <td>dim2</td>
+        <td>{{ new_data.dim2 }}</td>
+      </tr>
+      <tr>
+        <td>value</td>
+        <td>{{ new_data.value }}</td>
+      </tr>
+    </table>
+
+
+  {% endif %}
+
+  <hr>
+  Összesen <b>{{ num_data }}</b> adatpont van az adatbázisban.
+
+</body>
+</html>

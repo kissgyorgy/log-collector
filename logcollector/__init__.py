@@ -7,6 +7,7 @@ from .models import DataPoint
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///../logcollector.db'
+app.config['SECRET_KEY'] = "k_Ex`3\x06谍~\x11G扃Tmҡ9n&`'c5"
 
 db = SQLAlchemy(app)
 
