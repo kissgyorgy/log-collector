@@ -6,24 +6,16 @@
 </head>
 <body>
   <h1>Új adatpont felvétele</h1>
+
+  {% from "_form_helper.html" import render_field %}
   <form action="{{ url_for('new_data') }}" method="POST">
     {{ form.csrf_token }}
-    {% for error in form.timestamp.errors %}
-      <p style="color: red;">{{ error }}</p>
-    {% endfor %}
-    {{ form.timestamp.label }}: {{ form.timestamp }} <br>
-    {% for error in form.dim1.errors %}
-      <p style="color: red;">{{ error }}</p>
-    {% endfor %}
-    {{ form.dim1.label }}: {{ form.dim1 }} <br>
-    {% for error in form.dim2.errors %}
-      <p style="color: red;">{{ error }}</p>
-    {% endfor %}
-    {{ form.dim2.label }}: {{ form.dim2 }} <br>
-    {% for error in form.value.errors %}
-      <p style="color: red;">{{ error }}</p>
-    {% endfor %}
-    {{ form.value.label }}: {{ form.value }} <br>
+    <table>
+      <tr>{{ render_field(form.timestamp) }}</tr>
+      <tr>{{ render_field(form.dim1, size=5) }}</tr>
+      <tr>{{ render_field(form.dim2, size=5) }}</tr>
+      <tr>{{ render_field(form.value) }}</tr>
+    </table>
     <input type="submit" value="Létrehozás">
   </form>
 
