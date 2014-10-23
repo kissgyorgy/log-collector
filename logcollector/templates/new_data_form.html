@@ -8,9 +8,21 @@
   <h1>Új adatpont felvétele</h1>
   <form action="{{ url_for('new_data') }}" method="POST">
     {{ form.csrf_token }}
+    {% for error in form.timestamp.errors %}
+      <p style="color: red;">{{ error }}</p>
+    {% endfor %}
     {{ form.timestamp.label }}: {{ form.timestamp }} <br>
+    {% for error in form.dim1.errors %}
+      <p style="color: red;">{{ error }}</p>
+    {% endfor %}
     {{ form.dim1.label }}: {{ form.dim1 }} <br>
+    {% for error in form.dim2.errors %}
+      <p style="color: red;">{{ error }}</p>
+    {% endfor %}
     {{ form.dim2.label }}: {{ form.dim2 }} <br>
+    {% for error in form.value.errors %}
+      <p style="color: red;">{{ error }}</p>
+    {% endfor %}
     {{ form.value.label }}: {{ form.value }} <br>
     <input type="submit" value="Létrehozás">
   </form>
