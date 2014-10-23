@@ -32,3 +32,24 @@ class TestMean:
         db.session.commit()
         res = test_app.get('/mean/1000000000/1000000060?dim1=5&dim2=3')
         assert to_dict(res) == {'mean': 55.0}
+
+
+class TestMin:
+    def test_min(self, test_app):
+        res = test_app.get('/min/1000000000/1000000050')
+        assert to_dict(res) == {'min': 10}
+
+    def test_min_with_dim1(self, test_app):
+        res = test_app.get('/min/1000000000/1000000050?dim1=2')
+        assert to_dict(res) == {'min': 20}
+
+    def test_min_with_dim2(self, test_app):
+        res = test_app.get('/min/1000000000/1000000050?dim2=2')
+        assert to_dict(res) == {'min': 30}
+
+    def test_min_with_dim1_and_dim2(self, test_app, db):
+        db.session.add(DataPoint('1000000060', 5, 3, 60))
+        db.session.commit()
+        res = test_app.get('/min/1000000000/1000000060?dim1=5&dim2=3')
+        assert to_dict(res) == {'min': 50}
+
