@@ -28,3 +28,10 @@ def mean(first_date, second_date):
 def min_view(first_date, second_date):
     dataset = query_by_date(first_date, second_date)
     return jsonify(min=min(dataset))
+
+
+@app.route('/max/<first>/<second>')
+@convert_timestamps
+def max_view(first_date, second_date):
+    dataset = query_by_date(first_date, second_date)
+    return jsonify(max=max(dataset))
