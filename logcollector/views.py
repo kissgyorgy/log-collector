@@ -1,6 +1,6 @@
 import statistics
 from flask import request, jsonify
-from . import app, db, filter_by_dim12, convert_timestamps
+from . import app, db, convert_timestamps, query_by_date
 from .models import DataPoint
 
 
@@ -19,22 +19,12 @@ def collect():
 @app.route('/mean/<first>/<second>')
 @convert_timestamps
 def mean(first_date, second_date):
-    query = db.session.query(DataPoint.value)\
-                      .filter(first_date <= DataPoint.timestamp,
-                              DataPoint.timestamp <= second_date)
-
-    dataset = [d[0] for d in filter_by_dim12(query).all()]
-
+    dataset = query_by_date(first_date, second_date)
     return jsonify(mean=statistics.mean(dataset))
 
 
 @app.route('/min/<first>/<second>')
 @convert_timestamps
 def min_view(first_date, second_date):
-    query = db.session.query(DataPoint.value)\
-                      .filter(first_date <= DataPoint.timestamp,
-                              DataPoint.timestamp <= second_date)
-
-    dataset = [d[0] for d in filter_by_dim12(query).all()]
-
+    dataset = query_by_date(first_date, second_date)
     return jsonify(min=min(dataset))
