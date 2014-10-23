@@ -2,6 +2,7 @@ import statistics
 from flask import request, jsonify
 from . import app, db, convert_timestamps, query_by_date
 from .models import DataPoint
+from .moving_average import moving_average
 
 
 @app.route('/new', methods=['POST'])
@@ -44,3 +45,11 @@ def stddev(first_date, last_date):
     dataset = query_by_date(first_date, last_date)
     stddev = statistics.stdev(dataset)
     return jsonify(stddev=round(stddev, 5))
+
+
+@app.route('/movavg/<first_timestamp>/<last_timestamp>/<int:points>')
+@convert_timestamps
+def movavg(first_date, last_date, points):
+    # print(type(first_date), last_date, points)
+    dataset = query_by_date(first_date, last_date)
+    return jsonify(movavg=moving_average(dataset, points))

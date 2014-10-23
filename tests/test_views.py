@@ -1,5 +1,9 @@
 import json
+import pytest
 from logcollector.models import DataPoint
+
+
+pytestmark = pytest.mark.usefixtures("db")
 
 
 def to_dict(response):
@@ -105,3 +109,10 @@ class TestStandardDeviation:
         res = test_app.get('/stddev/1000000000/1000000070?dim1=5&dim2=3')
         # 50, 60, 70
         assert to_dict(res) == {'stddev': 10}
+
+
+class TestMovingAverage:
+    def test_moving_average(self, test_app):
+        res = test_app.get('/movavg/1000000000/1000000070/3')
+        # 10, 20, 30, 40, 50
+        assert to_dict(res) == {'movavg': [20.0, 30.0, 40.0]}

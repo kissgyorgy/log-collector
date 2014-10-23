@@ -27,9 +27,10 @@ def filter_by_dim12(query):
 def convert_timestamps(func):
     """Convert first two timestamp arguments to datetime objects."""
     @functools.wraps(func)
-    def wrapper(first_timestamp, last_timestamp):
+    def wrapper(first_timestamp, last_timestamp, *args, **kwargs):
         return func(datetime.fromtimestamp(float(first_timestamp)),
-                    datetime.fromtimestamp(float(last_timestamp))
+                    datetime.fromtimestamp(float(last_timestamp)),
+                    *args, **kwargs
                     )
     return wrapper
 
