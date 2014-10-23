@@ -15,7 +15,8 @@ def collect():
 
     # return the newly created data, with a 201: CREATED HTTP response
     return jsonify(id=new_data.id, timestamp=request.form['timestamp'],
-                   dim1=new_data.dim1, dim2=new_data.dim2), 201
+                   dim1=new_data.dim1, dim2=new_data.dim2,
+                   value=new_data.value), 201
 
 
 @app.route('/mean/<first_timestamp>/<last_timestamp>')
