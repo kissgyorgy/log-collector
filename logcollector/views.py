@@ -1,7 +1,6 @@
-from datetime import datetime
 import statistics
 from flask import request, jsonify
-from . import app, db, filter_by_dim12
+from . import app, db, filter_by_dim12, convert_timestamps
 from .models import DataPoint
 
 
@@ -18,10 +17,8 @@ def collect():
 
 
 @app.route('/mean/<first>/<second>')
-def mean(first, second):
-    first_date = datetime.fromtimestamp(float(first))
-    second_date = datetime.fromtimestamp(float(second))
-
+@convert_timestamps
+def mean(first_date, second_date):
     query = db.session.query(DataPoint.value)\
                       .filter(first_date <= DataPoint.timestamp,
                               DataPoint.timestamp <= second_date)
@@ -32,10 +29,8 @@ def mean(first, second):
 
 
 @app.route('/min/<first>/<second>')
-def min_view(first, second):
-    first_date = datetime.fromtimestamp(float(first))
-    second_date = datetime.fromtimestamp(float(second))
-
+@convert_timestamps
+def min_view(first_date, second_date):
     query = db.session.query(DataPoint.value)\
                       .filter(first_date <= DataPoint.timestamp,
                               DataPoint.timestamp <= second_date)
