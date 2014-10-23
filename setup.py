@@ -7,5 +7,6 @@ setup(
     author = 'Kiss György',
     description = 'Log collector task for Job application',
     modules = find_packages(),
-    install_requires = ['flask', 'sqlalchemy', 'flask-sqlalchemy']
+    entry_points = {'console_scripts': ['logcollector = logcollector.commands:logcollector']},
+    install_requires = ['flask', 'sqlalchemy', 'flask-sqlalchemy', 'click']
 )
