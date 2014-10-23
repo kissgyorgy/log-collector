@@ -8,7 +8,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///../logcollector.db'
 db = SQLAlchemy(app)
 
 
-@app.route("/new", methods=['POST'])
+@app.route('/new', methods=['POST'])
 def collect():
     new_data = DataPoint(request.form['timestamp'], request.form['dim1'],
                          request.form['dim2'], request.form['value']
