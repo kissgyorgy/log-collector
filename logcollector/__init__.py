@@ -12,9 +12,9 @@ db = SQLAlchemy(app)
 
 
 def filter_by_dim12(query):
+    """Filter query by values of dim1 and dim2 arguments."""
     for arg in ('dim1', 'dim2'):
         value = request.args.get(arg)
-        print(arg, value)
         if value:
             # filtery by dinamic keywords. This way it's possible to extend
             # the function later just by adding a new query argument
@@ -27,17 +27,18 @@ def filter_by_dim12(query):
 def convert_timestamps(func):
     """Convert first two timestamp arguments to datetime objects."""
     @functools.wraps(func)
-    def wrapper(first, second):
-        return func(datetime.fromtimestamp(float(first)),
-                    datetime.fromtimestamp(float(second))
+    def wrapper(first_timestamp, last_timestamp):
+        return func(datetime.fromtimestamp(float(first_timestamp)),
+                    datetime.fromtimestamp(float(last_timestamp))
                     )
     return wrapper
 
 
-def query_by_date(first_date, second_date):
+def query_by_date(first_date, last_date):
+    """Query database for DataPoint between two dates."""
     query = db.session.query(DataPoint.value)\
                       .filter(first_date <= DataPoint.timestamp,
-                              DataPoint.timestamp <= second_date)
+                              DataPoint.timestamp <= last_date)
 
     values = [d[0] for d in filter_by_dim12(query).all()]
     return values

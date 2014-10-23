@@ -1,3 +1,8 @@
+"""
+    Module for calculating simple moving average on a dataset
+    with a fixed number of points.
+"""
+
 def moving_average(dataset, points):
     ma = []
     data_len = len(dataset)

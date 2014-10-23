@@ -12,34 +12,35 @@ def collect():
     db.session.add(new_data)
     db.session.commit()
 
+    # return the newly created data, with a 201: CREATED HTTP response
     return jsonify(id=new_data.id, timestamp=request.form['timestamp'],
                    dim1=new_data.dim1, dim2=new_data.dim2), 201
 
 
-@app.route('/mean/<first>/<second>')
+@app.route('/mean/<first_timestamp>/<last_timestamp>')
 @convert_timestamps
-def mean(first_date, second_date):
-    dataset = query_by_date(first_date, second_date)
+def mean(first_date, last_date):
+    dataset = query_by_date(first_date, last_date)
     return jsonify(mean=statistics.mean(dataset))
 
 
-@app.route('/min/<first>/<second>')
+@app.route('/min/<first_timestamp>/<last_timestamp>')
 @convert_timestamps
-def min_view(first_date, second_date):
-    dataset = query_by_date(first_date, second_date)
+def min_view(first_date, last_date):
+    dataset = query_by_date(first_date, last_date)
     return jsonify(min=min(dataset))
 
 
-@app.route('/max/<first>/<second>')
+@app.route('/max/<first_timestamp>/<last_timestamp>')
 @convert_timestamps
-def max_view(first_date, second_date):
-    dataset = query_by_date(first_date, second_date)
+def max_view(first_date, last_date):
+    dataset = query_by_date(first_date, last_date)
     return jsonify(max=max(dataset))
 
 
-@app.route('/stddev/<first>/<second>')
+@app.route('/stddev/<first_timestamp>/<last_timestamp>')
 @convert_timestamps
-def stddev_view(first_date, second_date):
-    dataset = query_by_date(first_date, second_date)
+def stddev(first_date, last_date):
+    dataset = query_by_date(first_date, last_date)
     stddev = statistics.stdev(dataset)
     return jsonify(stddev=round(stddev, 5))
