@@ -29,3 +29,17 @@ def mean(first, second):
     dataset = [d[0] for d in filter_by_dim12(query).all()]
 
     return jsonify(mean=statistics.mean(dataset))
+
+
+@app.route('/min/<first>/<second>')
+def min_view(first, second):
+    first_date = datetime.fromtimestamp(float(first))
+    second_date = datetime.fromtimestamp(float(second))
+
+    query = db.session.query(DataPoint.value)\
+                      .filter(first_date <= DataPoint.timestamp,
+                              DataPoint.timestamp <= second_date)
+
+    dataset = [d[0] for d in filter_by_dim12(query).all()]
+
+    return jsonify(min=min(dataset))
