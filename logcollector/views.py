@@ -35,3 +35,11 @@ def min_view(first_date, second_date):
 def max_view(first_date, second_date):
     dataset = query_by_date(first_date, second_date)
     return jsonify(max=max(dataset))
+
+
+@app.route('/stddev/<first>/<second>')
+@convert_timestamps
+def stddev_view(first_date, second_date):
+    dataset = query_by_date(first_date, second_date)
+    stddev = statistics.stdev(dataset)
+    return jsonify(stddev=round(stddev, 5))

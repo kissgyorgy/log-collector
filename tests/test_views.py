@@ -72,3 +72,34 @@ class TestMin:
         db.session.commit()
         res = test_app.get('/max/1000000000/1000000060?dim1=5&dim2=3')
         assert to_dict(res) == {'max': 60}
+
+
+class TestStdDev:
+    def test_stddev(self, test_app):
+        res = test_app.get('/stddev/1000000000/1000000050')
+        assert to_dict(res) == {'stddev': 15.81139}
+
+    def test_stddev_with_dim1(self, test_app, db):
+        db.session.add_all([
+            DataPoint('1000000060', 2, 3, 60),
+            DataPoint('1000000070', 2, 3, 70)
+        ])
+        db.session.commit()
+        res = test_app.get('/stddev/1000000000/1000000070?dim1=2')
+        # 20, 60, 70
+        assert to_dict(res) == {'stddev': 26.45751}
+
+    def test_stddev_with_dim2(self, test_app, db):
+        res = test_app.get('/stddev/1000000000/1000000050?dim2=2')
+        # 30, 40
+        assert to_dict(res) == {'stddev': 7.07107}
+
+    def test_stddev_with_dim1_and_dim2(self, test_app, db):
+        db.session.add_all([
+            DataPoint('1000000060', 5, 3, 60),
+            DataPoint('1000000070', 5, 3, 70)
+        ])
+        db.session.commit()
+        res = test_app.get('/stddev/1000000000/1000000070?dim1=5&dim2=3')
+        # 50, 60, 70
+        assert to_dict(res) == {'stddev': 10}
