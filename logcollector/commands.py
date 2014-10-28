@@ -13,7 +13,7 @@ def run():
     """Run the development server with debug option."""
     from . import app
     app.debug = True
-    app.run()
+    app.run(host='0.0.0.0')
 
 
 @logcollector.command()
