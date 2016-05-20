@@ -5,7 +5,7 @@ Az alkalmazás egy egyszerű microservice-t valósít meg Flask framework haszn�
 Klónozás után:
    
 ```bash
-$ git clone git@github.com:Walkman/Log-collector.git
+$ git clone git@github.com:kissgyorgy/Log-collector.git
 ```
 
 egyszerűen telepíthető a 
